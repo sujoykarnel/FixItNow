@@ -9,10 +9,15 @@ model Service {
     categoryId String
     category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
-    
     title String @db.VarChar(255)
     discription String @db.Text
     price Float @default(0)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    // booking
+    booking Booking[]
+
+    @@map("services")
+    
 }

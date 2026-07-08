@@ -12,7 +12,8 @@ model User {
     // technician profile
     techinicianProfile TechnicianProfile?
 
-    // customer booking
+    // booking
+    booking Booking[]
 
     // review 
 
