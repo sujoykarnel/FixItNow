@@ -10,4 +10,6 @@ model Payment {
     status PaymentStatus @default(PENDING)
     paidAt DateTime?
     createdAt DateTime @default(now())
+
+    @@map("payments")
 }

@@ -16,5 +16,5 @@ model TechnicianProfile {
     // service
     service Service[]
 
-    @@map("technician_profile")
+    @@map("technician_profiles")
 }
