@@ -16,7 +16,7 @@ model User {
     booking Booking[]
 
     // review
-    review Review[]
+    reviews Review[]
 
     @@map("users")
 

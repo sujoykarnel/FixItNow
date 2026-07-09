@@ -30,6 +30,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/categories", categoryRouter);
 app.use("/api/services", serviceRouter);
 app.use("/api/technicians", technicianRouter);
+app.use("/api/bookings", technicianRouter);
 
 // not found handler
 app.use(notFound);

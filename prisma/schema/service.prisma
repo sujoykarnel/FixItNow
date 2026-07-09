@@ -16,7 +16,7 @@ model Service {
     updatedAt DateTime @updatedAt
 
     // booking
-    booking Booking[]
+    bookings Booking[]
 
     @@map("services")
     

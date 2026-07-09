@@ -6,7 +6,7 @@ model Category {
     updateAt DateTime @updatedAt
 
     // service
-    service Service[]
+    services Service[]
 
     @@map("categories")
 }

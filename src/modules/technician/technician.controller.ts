@@ -11,20 +11,44 @@ const getAllTechnicians = catchAsync(
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,
-      message: "Technician retrived successfully",
+      message: "Technicians retrived successfully",
       data: result,
     });
   },
 );
 const getSingleTechnician = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.params.id;
+
+    const result = await technicianService.getSingleTechnician(id as string);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Technician retrived successfully",
+      data: result,
+    });
+  },
 );
 const updateTechnicianProfile = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.user?.id;
+    const payload = req.body;
+
+    const result = await technicianService.updateTechnicianProfile(
+      payload,
+      userId as string,
+        );
+        
+        sendResponse(res, {
+          success: true,
+          statusCode: httpStatus.OK,
+          message: "Profile Update successfully",
+          data: result,
+        });
+  },
 );
-const updateTechnicianAvailability = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
-);
+
 const getTechnicianBookings = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {},
 );
@@ -36,7 +60,6 @@ export const technicianController = {
   getAllTechnicians,
   getSingleTechnician,
   updateTechnicianProfile,
-  updateTechnicianAvailability,
   getTechnicianBookings,
   updateTechnicianBookingById,
 };
