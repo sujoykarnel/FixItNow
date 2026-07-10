@@ -39,7 +39,15 @@ const getUserBooingsFromDB = async (customerId: string) => {
     include: {
       service: {
         include: {
-          technicianProfile: true,
+              technicianProfile: {
+                include: {
+                      user: {
+                        omit: {
+                          password : true
+                      }
+                  }
+              }
+          },
         },
       },
     },

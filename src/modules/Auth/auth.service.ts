@@ -14,7 +14,7 @@ const registerUserIntoDB = async (payload: IRegisterUserPayload) => {
     //   where: { email },
     // });
 
-    const upperRole = role.toUpperCase();
+    const upperCaseRole = role.toUpperCase();
     const hashedPassword = await bcrypt.hash(
       password,
       Number(config.bycript_salt_rounds),
@@ -26,7 +26,7 @@ const registerUserIntoDB = async (payload: IRegisterUserPayload) => {
         email,
         phone,
         password: hashedPassword,
-        role: upperRole as Role,
+        role: upperCaseRole as Role,
       },
     });
 

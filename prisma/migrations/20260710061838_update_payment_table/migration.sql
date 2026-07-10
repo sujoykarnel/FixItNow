@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "payments" ALTER COLUMN "amount" DROP NOT NULL,
+ALTER COLUMN "transectionId" DROP NOT NULL,
+ALTER COLUMN "provider" DROP NOT NULL,
+ALTER COLUMN "method" DROP NOT NULL;

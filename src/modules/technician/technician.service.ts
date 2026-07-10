@@ -1,5 +1,9 @@
+import { BookingStatus } from "../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
-import { IUpdateTechnicianPayload } from "./technician.interface";
+import {
+  IUpdateTechnicianBookinPayload,
+  IUpdateTechnicianPayload,
+} from "./technician.interface";
 
 const getAllTechnicians = async () => {
   const technicians = prisma.technicianProfile.findMany({
@@ -59,8 +63,63 @@ const updateTechnicianProfile = async (
 
   return updateProfile;
 };
-const getTechnicianBookings = async () => {};
-const updateTechnicianBookingById = async () => {};
+const getTechnicianBookings = async (userId: string) => {
+  const technician = await prisma.technicianProfile.findUniqueOrThrow({
+    where: { userId },
+  });
+
+  const bookings = await prisma.booking.findMany({
+    where: {
+      service: {
+        technicianId: technician.id,
+      },
+    },
+    include: {
+      service: true,
+      customer: {
+        omit: {
+          password: true,
+        },
+      },
+    },
+  });
+  console.log(bookings, "Teechnician Service");
+
+  return bookings;
+};
+
+const updateTechnicianBookingById = async (
+  payload: IUpdateTechnicianBookinPayload,
+  userId: string,
+  bookingId: string,
+) => {
+
+    const transectionResult = await prisma.$transaction(async (tx) => {
+        const { status } = payload;
+        const upperCaseStatus = status.toUpperCase();
+        const technician = await tx.technicianProfile.findUniqueOrThrow({
+          where: { userId },
+        });
+
+        const updatedBooking = await tx.booking.update({
+          where: {
+            id: bookingId,
+            service: {
+              technicianId: technician.id,
+            },
+          },
+          data: {
+            status: upperCaseStatus as BookingStatus,
+          },
+        });
+
+
+        await tx.payment.create({})
+
+        return updatedBooking;
+    })
+    return transectionResult
+};
 
 export const technicianService = {
   getAllTechnicians,
