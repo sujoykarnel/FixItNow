@@ -16,6 +16,20 @@ const createCheckoutSession = async (bookingId: string, userId: string) => {
       },
     });
 
+    if (booking.status === "CANCELED") {
+      throw new Error("Booking has been canceled");
+    } else if (booking.status === "DECLINED") {
+      throw new Error("Booking has been declined");
+    } else if (booking.status === "REQUESTED") {
+      throw new Error("Booking not accepeted");
+    } else if (booking.status === "IN_PROGRESS") {
+      throw new Error("Service has been in progress");
+    } else if (booking.status === "COMPLETED") {
+      throw new Error("Booking has been completed");
+    } else {
+      throw new Error("Something went wrong");
+    }
+
     const customer = await tx.user.findUniqueOrThrow({
       where: { id: userId },
       omit: { password: true },
