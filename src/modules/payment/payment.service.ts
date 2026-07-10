@@ -21,13 +21,11 @@ const createCheckoutSession = async (bookingId: string, userId: string) => {
     } else if (booking.status === "DECLINED") {
       throw new Error("Booking has been declined");
     } else if (booking.status === "REQUESTED") {
-      throw new Error("Booking not accepeted");
+      throw new Error("Booking has not been accepted yet");
     } else if (booking.status === "IN_PROGRESS") {
-      throw new Error("Service has been in progress");
+      throw new Error("Service is already in progress");
     } else if (booking.status === "COMPLETED") {
-      throw new Error("Booking has been completed");
-    } else {
-      throw new Error("Something went wrong");
+      throw new Error("Booking has already been completed");
     }
 
     const customer = await tx.user.findUniqueOrThrow({
