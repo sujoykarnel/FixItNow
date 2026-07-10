@@ -61,10 +61,12 @@ const registerUserIntoDB = async (payload: IRegisterUserPayload) => {
 const loginUserIntoDB = async (payload: ILoginPayload) => {
   const { email, password } = payload;
 
+  
   const user = await prisma.user.findUniqueOrThrow({
     where: { email },
   });
-
+  
+  console.log(user)
   if (user.status === "BLOCKED") {
     throw new Error("Your account has been blocked. Please contat support");
   }

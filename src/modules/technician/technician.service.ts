@@ -93,32 +93,28 @@ const updateTechnicianBookingById = async (
   userId: string,
   bookingId: string,
 ) => {
+  const transectionResult = await prisma.$transaction(async (tx) => {
+    const { status } = payload;
+    const upperCaseStatus = status.toUpperCase() as BookingStatus;
+    const technician = await tx.technicianProfile.findUniqueOrThrow({
+      where: { userId },
+    });
 
-    const transectionResult = await prisma.$transaction(async (tx) => {
-        const { status } = payload;
-        const upperCaseStatus = status.toUpperCase();
-        const technician = await tx.technicianProfile.findUniqueOrThrow({
-          where: { userId },
-        });
+    const updatedBooking = await tx.booking.update({
+      where: {
+        id: bookingId,
+        service: {
+          technicianId: technician.id,
+        },
+      },
+      data: {
+        status: upperCaseStatus,
+      },
+    });
 
-        const updatedBooking = await tx.booking.update({
-          where: {
-            id: bookingId,
-            service: {
-              technicianId: technician.id,
-            },
-          },
-          data: {
-            status: upperCaseStatus as BookingStatus,
-          },
-        });
-
-
-        await tx.payment.create({})
-
-        return updatedBooking;
-    })
-    return transectionResult
+    return updatedBooking;
+  });
+  return transectionResult;
 };
 
 export const technicianService = {

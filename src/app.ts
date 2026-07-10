@@ -9,6 +9,7 @@ import { globalErrorHandler } from "./middlewares/globalErrorHandler";
 import { notFound } from "./middlewares/notFound";
 import { technicianRouter } from "./modules/technician/technician.route";
 import { bookingRouter } from "./modules/booking/booking.route";
+import { paymentRouter } from "./modules/payment/payment.route";
 
 const app: Application = express();
 
@@ -18,6 +19,10 @@ app.use(
     credentials: true,
   }),
 );
+
+const endpointSecret = config.stripe_webhook_secret;
+
+app.use("/api/payments/webhook", express.raw({ type: "application/json" }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -32,6 +37,7 @@ app.use("/api/categories", categoryRouter);
 app.use("/api/services", serviceRouter);
 app.use("/api/technicians", technicianRouter);
 app.use("/api/bookings", bookingRouter);
+app.use("/api/payments", paymentRouter);
 
 // not found handler
 app.use(notFound);
