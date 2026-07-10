@@ -17,7 +17,7 @@ const getAllCategoriesFromDB = async () => {
       name: "asc",
     },
     include: {
-      service: true,
+      services: true,
     },
   });
 

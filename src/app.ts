@@ -8,6 +8,7 @@ import { serviceRouter } from "./modules/service/service.route";
 import { globalErrorHandler } from "./middlewares/globalErrorHandler";
 import { notFound } from "./middlewares/notFound";
 import { technicianRouter } from "./modules/technician/technician.route";
+import { bookingRouter } from "./modules/booking/booking.route";
 
 const app: Application = express();
 
@@ -30,7 +31,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/categories", categoryRouter);
 app.use("/api/services", serviceRouter);
 app.use("/api/technicians", technicianRouter);
-app.use("/api/bookings", technicianRouter);
+app.use("/api/bookings", bookingRouter);
 
 // not found handler
 app.use(notFound);

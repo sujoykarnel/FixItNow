@@ -13,8 +13,7 @@ export const globalErrorHandler = (
 
   if (err instanceof Prisma.PrismaClientValidationError) {
     statusCode = httpStatus.BAD_REQUEST;
-    errorMessage =
-      "You have to provided incorrect field type of missing fields";
+    errorMessage = "You have to provided incorrect field type of missing fields";
   } else if (err instanceof Prisma.PrismaClientKnownRequestError) {
     if (err.code === "P2002") {
       statusCode = httpStatus.BAD_REQUEST;
@@ -30,8 +29,7 @@ export const globalErrorHandler = (
   } else if (err instanceof Prisma.PrismaClientInitializationError) {
     if (err.errorCode === "P1000") {
       statusCode = httpStatus.UNAUTHORIZED;
-      errorMessage =
-        "Authentication failed against database server at {database_host}, the provided database credentials";
+      errorMessage ="Authentication failed against database server at {database_host}, the provided database credentials";
     } else if (err.errorCode === "P1001") {
       statusCode = httpStatus.BAD_REQUEST;
       errorMessage = "Can't reach database server";
