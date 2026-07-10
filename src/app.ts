@@ -10,6 +10,7 @@ import { notFound } from "./middlewares/notFound";
 import { technicianRouter } from "./modules/technician/technician.route";
 import { bookingRouter } from "./modules/booking/booking.route";
 import { paymentRouter } from "./modules/payment/payment.route";
+import { reviewRouter } from "./modules/review/review.route";
 
 const app: Application = express();
 
@@ -38,6 +39,7 @@ app.use("/api/services", serviceRouter);
 app.use("/api/technicians", technicianRouter);
 app.use("/api/bookings", bookingRouter);
 app.use("/api/payments", paymentRouter);
+app.use("/api/reviews", reviewRouter);
 
 // not found handler
 app.use(notFound);
