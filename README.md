@@ -1,6 +1,6 @@
 # 🔧 FixItNow API Documentation
 
-Server Base URL
+Local Server Base URL
 
 ```
 http://localhost:5000/api
