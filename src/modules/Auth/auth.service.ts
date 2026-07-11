@@ -47,9 +47,6 @@ const registerUserIntoDB = async (payload: IRegisterUserPayload) => {
       omit: {
         password: true,
       },
-      include: {
-        techinicianProfile: true,
-      },
     });
 
     return user;
