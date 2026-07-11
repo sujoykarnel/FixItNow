@@ -31,7 +31,39 @@ const getSingleUser = catchAsync(
   },
 );
 
+const updateUserStatus = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.params.id;
+    const payload = req.body;
+    const result = await adminService.updateUserStatusIntoDB(
+      payload,
+      userId as string,
+    );
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "User retrived successfully",
+      data: result,
+    });
+  },
+);
+const getAllBookings = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const result = await adminService.getAllBookingsFromDB();
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Bookings retrived successfully",
+      data: result,
+    });
+  },
+);
+
 export const adminController = {
   getAllUsers,
   getSingleUser,
+  updateUserStatus,
+  getAllBookings,
 };
