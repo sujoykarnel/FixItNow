@@ -86,7 +86,20 @@ const handleWebhook = async (payload: Buffer, signature: string) => {
   }
 };
 
+const paymentHistory = async (customerId: string) => {
+  const histoty = await prisma.payment.findMany({
+    where: {
+      booking: {
+        customerId,
+      },
+    },
+  });
+
+  return histoty
+};
+
 export const paymentService = {
   createCheckoutSession,
   handleWebhook,
+  paymentHistory,
 };

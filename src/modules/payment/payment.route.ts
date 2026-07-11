@@ -13,4 +13,10 @@ router.post(
 
 router.post("/confirm", paymentController.handleWebhook);
 
+router.get(
+  "/",
+  auth(Role.ADMIN, Role.CUSTOMER, Role.TECHNICIAN),
+  paymentController.paymentHistory,
+);
+
 export const paymentRouter = router;
