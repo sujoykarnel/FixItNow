@@ -51,17 +51,38 @@ const loginUser = catchAsync(
 
 const getUserProfile = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.user?.id;
 
-    const userId = req.user?.id
-
-    const profile = await authServicce.getUserProfileFromDB(userId as string)
+    const profile = await authServicce.getUserProfileFromDB(userId as string);
 
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,
       message: "User profile fetched successfully",
-      data: profile
-    })
+      data: profile,
+    });
+  },
+);
+
+const refreshToken = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const refreshToken = req.cookies.refreshToken;
+
+    const { accessToken } = await authServicce.refreshToken(refreshToken);
+
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "none",
+      maxAge: 1000 * 60 * 60 * 24 * 1, // 1 day
+    });
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Token refreshed successfully",
+      data: { accessToken },
+    });
   },
 );
 
@@ -69,4 +90,5 @@ export const authController = {
   registerUser,
   loginUser,
   getUserProfile,
+  refreshToken,
 };

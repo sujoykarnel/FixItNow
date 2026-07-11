@@ -4,7 +4,7 @@ import { ILoginPayload, IRegisterUserPayload } from "./auth.interface";
 import config from "../../config";
 import { Role } from "../../../generated/prisma/enums";
 import { jwtUtils } from "../../utils/jwt";
-import { SignOptions } from "jsonwebtoken";
+import { JwtPayload, SignOptions } from "jsonwebtoken";
 
 const registerUserIntoDB = async (payload: IRegisterUserPayload) => {
   const transectionResult = await prisma.$transaction(async (tx) => {
@@ -61,12 +61,11 @@ const registerUserIntoDB = async (payload: IRegisterUserPayload) => {
 const loginUserIntoDB = async (payload: ILoginPayload) => {
   const { email, password } = payload;
 
-  
   const user = await prisma.user.findUniqueOrThrow({
     where: { email },
   });
-  
-  console.log(user)
+
+  console.log(user);
   if (user.status === "BLOCKED") {
     throw new Error("Your account has been blocked. Please contat support");
   }
@@ -103,19 +102,55 @@ const loginUserIntoDB = async (payload: ILoginPayload) => {
 };
 
 const getUserProfileFromDB = async (userId: string) => {
-
-  console.log(userId,"Get Profile");
+  console.log(userId, "Get Profile");
   const user = await prisma.user.findUniqueOrThrow({
     where: { id: userId },
     omit: { password: true },
     include: { techinicianProfile: true },
   });
 
-  return user
+  return user;
+};
+
+const refreshToken = async (refrehToken: string) => {
+  const verifiedRefreshToken = jwtUtils.veryfyToken(
+    refrehToken,
+    config.jwt_refresh_secret,
+  );
+
+  if (!verifiedRefreshToken.success) {
+    throw new Error(verifiedRefreshToken.error);
+  }
+
+  const { id } = verifiedRefreshToken.data as JwtPayload;
+
+  const user = await prisma.user.findUniqueOrThrow({
+    where: { id },
+  });
+
+  if (user.status === "BLOCKED") {
+    throw new Error("User is blocked! Please contact support");
+  }
+
+  const jwtPayload = {
+    id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+  };
+
+  const accessToken = jwtUtils.createToken(
+    jwtPayload,
+    config.jwt_access_secret,
+    config.jwt_access_expires_in as SignOptions,
+  );
+
+  return { accessToken };
 };
 
 export const authServicce = {
   registerUserIntoDB,
   loginUserIntoDB,
   getUserProfileFromDB,
+  refreshToken,
 };
