@@ -11,6 +11,6 @@ router.post(
   paymentController.createCheckoutSession,
 );
 
-router.post("/webhook", paymentController.handleWebhook);
+router.post("/confirm", paymentController.handleWebhook);
 
 export const paymentRouter = router;
