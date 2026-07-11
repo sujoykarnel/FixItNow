@@ -5,6 +5,6 @@ import { Role } from "../../../generated/prisma/enums";
 
 const router = Router();
 
-router.get("/", auth(Role.TECHNICIAN), categoryContoller.getAllCategories);
+router.get("/", categoryContoller.getAllCategories);
 
 export const categoryRouter = router;

@@ -6,7 +6,9 @@ import httpStatus from "http-status";
 
 const getAllTechnicians = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const result = await technicianService.getAllTechnicians();
+    const query = req.query;
+
+    const result = await technicianService.getAllTechnicians(query);
 
     sendResponse(res, {
       success: true,

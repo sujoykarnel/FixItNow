@@ -1,22 +1,100 @@
 import { BookingStatus } from "../../../generated/prisma/enums";
+import { TechnicianProfileWhereInput } from "../../../generated/prisma/models";
 import { prisma } from "../../lib/prisma";
 import {
+  ITechnicianQuery,
   IUpdateTechnicianBookinPayload,
   IUpdateTechnicianPayload,
 } from "./technician.interface";
 
-const getAllTechnicians = async () => {
+const getAllTechnicians = async (query: ITechnicianQuery) => {
+  const limit = query.limit ? Number(query.limit) : 10;
+  const page = query.page ? Number(query.page) : 1;
+  const skip = (page - 1) * limit;
+  const sortBy = query.sortBy ? Number(query.sortBy) : "createdAt";
+  const sortOrder = query.sortOrder ? Number(query.sortOrder) : "desc";
+
+  const andConditions: TechnicianProfileWhereInput[] = [];
+
+  if (query.searchTerm) {
+    andConditions.push({
+      OR: [
+        {
+          service: {
+            some: {
+              title: {
+                contains: query.searchTerm,
+                mode: "insensitive",
+              },
+            },
+          },
+        },
+        {
+          service: {
+            some: {
+              discription: {
+                contains: query.searchTerm,
+                mode: "insensitive",
+              },
+            },
+          },
+        },
+        {
+          location: {
+            contains: query.searchTerm,
+            mode: "insensitive",
+          },
+        },
+      ],
+    });
+  }
+
+  if (query.location) {
+    andConditions.push({
+      location: query.location,
+    });
+  }
+
+  if (query.avgRating) {
+    andConditions.push({
+      avgRating: Number(query.avgRating),
+    });
+  }
+  if (query.avgRating) {
+    andConditions.push({
+      avgRating: Number(query.avgRating),
+    });
+  }
+  if (query.avgRating) {
+    andConditions.push({
+      avgRating: Number(query.avgRating),
+    });
+  }
+  if (query.experience) {
+    andConditions.push({
+      experience: {
+        gte: Number(query.experience),
+      },
+    });
+  }
+
   const technicians = prisma.technicianProfile.findMany({
+    where: {
+      AND: andConditions,
+    },
+
+    take: limit,
+    skip: skip,
+
+    orderBy: {
+      [sortBy]: sortOrder,
+    },
+
     include: {
       user: {
         omit: {
           password: true,
         },
-      },
-    },
-    orderBy: {
-      user: {
-        name: "asc",
       },
     },
   });

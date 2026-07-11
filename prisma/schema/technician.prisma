@@ -10,6 +10,7 @@ model TechnicianProfile {
     location String? @db.VarChar(255)
     availableStart String?
     availableEnd String?
+    avgRating Float? @default(0)
     createdAt DateTime @default(now())
     updateAt DateTime @updatedAt
 
