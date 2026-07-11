@@ -10,6 +10,16 @@ const getAllUsersFromDB = async () => {
   return users;
 };
 
+const getSingleUserFromDB = async (userId: string) => {
+  const user = prisma.user.findUniqueOrThrow({
+    where: { id: userId },
+    omit: { password: true },
+  });
+
+  return user;
+};
+
 export const adminService = {
   getAllUsersFromDB,
+  getSingleUserFromDB,
 };
