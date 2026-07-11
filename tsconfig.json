@@ -7,5 +7,7 @@
     "esModuleInterop": true,
     "ignoreDeprecations": "6.0",
     "strictNullChecks": true
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": []
 }
