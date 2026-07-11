@@ -1,6 +1,12 @@
 # 🔧 FixItNow API Documentation
 
-Base URL
+Server Base URL
+
+```
+http://localhost:5000/api
+```
+
+Live Server Base URL
 
 ```
 https://fix-it-now-virid.vercel.app/api
@@ -10,74 +16,74 @@ https://fix-it-now-virid.vercel.app/api
 
 # 🔐 Authentication
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/auth/register` | Register a new user |
-| POST | `/auth/login` | Login user |
-| GET | `/auth/profile` | Get logged-in user profile |
-| GET | `/auth/refresh-token` | Refresh access token |
+| Method | Endpoint              | Description                |
+| ------ | --------------------- | -------------------------- |
+| POST   | `/auth/register`      | Register a new user        |
+| POST   | `/auth/login`         | Login user                 |
+| GET    | `/auth/profile`       | Get logged-in user profile |
+| GET    | `/auth/refresh-token` | Refresh access token       |
 
 ---
 
 # 📂 Categories
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/categories` | Get all categories |
-| POST | `/categories` | Create category (Admin) |
+| Method | Endpoint      | Description             |
+| ------ | ------------- | ----------------------- |
+| GET    | `/categories` | Get all categories      |
+| POST   | `/categories` | Create category (Admin) |
 
 ---
 
 # 🛠️ Services
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/services` | Create a new service |
-| GET | `/services` | Get all services |
-| GET | `/services/:id` | Get single service |
-| PATCH | `/services/:id` | Update service |
-| DELETE | `/services/:id` | Delete service |
+| Method | Endpoint        | Description          |
+| ------ | --------------- | -------------------- |
+| POST   | `/services`     | Create a new service |
+| GET    | `/services`     | Get all services     |
+| GET    | `/services/:id` | Get single service   |
+| PATCH  | `/services/:id` | Update service       |
+| DELETE | `/services/:id` | Delete service       |
 
 ---
 
 # 👨‍🔧 Technicians
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/technicians` | Get all technicians |
-| GET | `/technicians/:id` | Get technician details |
-| PATCH | `/technicians/profile` | Update technician profile |
-| GET | `/technicians/bookings` | Get technician bookings |
-| PATCH | `/technicians/bookings/:bookingId` | Update booking status |
+| Method | Endpoint                           | Description               |
+| ------ | ---------------------------------- | ------------------------- |
+| GET    | `/technicians`                     | Get all technicians       |
+| GET    | `/technicians/:id`                 | Get technician details    |
+| PATCH  | `/technicians/profile`             | Update technician profile |
+| GET    | `/technicians/bookings`            | Get technician bookings   |
+| PATCH  | `/technicians/bookings/:bookingId` | Update booking status     |
 
 ---
 
 # 📅 Bookings
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/bookings` | Create booking |
-| GET | `/bookings/my-bookings` | Get logged-in user's bookings |
-| GET | `/bookings/:id` | Get booking details |
+| Method | Endpoint                | Description                   |
+| ------ | ----------------------- | ----------------------------- |
+| POST   | `/bookings`             | Create booking                |
+| GET    | `/bookings/my-bookings` | Get logged-in user's bookings |
+| GET    | `/bookings/:id`         | Get booking details           |
 
 ---
 
 # 💳 Payments
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/payments/checkout` | Create Stripe checkout session |
-| GET | `/payments/history` | Get payment history |
-| GET | `/payments/history/:id` | Get payment details |
-| POST | `/payments/webhook` | Stripe webhook |
+| Method | Endpoint                | Description                    |
+| ------ | ----------------------- | ------------------------------ |
+| POST   | `/payments/checkout`    | Create Stripe checkout session |
+| GET    | `/payments/history`     | Get payment history            |
+| GET    | `/payments/history/:id` | Get payment details            |
+| POST   | `/payments/webhook`     | Stripe webhook                 |
 
 ---
 
 # ⭐ Reviews
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/reviews` | Create review |
+| Method | Endpoint   | Description   |
+| ------ | ---------- | ------------- |
+| POST   | `/reviews` | Create review |
 
 ---
 
@@ -85,24 +91,24 @@ https://fix-it-now-virid.vercel.app/api
 
 ## Users
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/admin/users` | Get all users |
-| GET | `/admin/users/:id` | Get single user |
-| PATCH | `/admin/users/:id/status` | Update user status |
+| Method | Endpoint                  | Description        |
+| ------ | ------------------------- | ------------------ |
+| GET    | `/admin/users`            | Get all users      |
+| GET    | `/admin/users/:id`        | Get single user    |
+| PATCH  | `/admin/users/:id/status` | Update user status |
 
 ## Bookings
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/admin/bookings` | Get all bookings |
+| Method | Endpoint          | Description      |
+| ------ | ----------------- | ---------------- |
+| GET    | `/admin/bookings` | Get all bookings |
 
 ## Categories
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/admin/categories` | Create category |
-| GET | `/admin/categories` | Get all categories |
+| Method | Endpoint            | Description        |
+| ------ | ------------------- | ------------------ |
+| POST   | `/admin/categories` | Create category    |
+| GET    | `/admin/categories` | Get all categories |
 
 ---
 
@@ -121,6 +127,7 @@ Authorization: Bearer <access_token>
 ```json
 {
   "success": true,
+  "statusCode": 200,
   "message": "Request Successful",
   "data": {}
 }
@@ -133,6 +140,7 @@ Authorization: Bearer <access_token>
 ```json
 {
   "success": false,
+  "statusCode": 500,
   "message": "Something went wrong",
   "error": {}
 }
@@ -151,6 +159,12 @@ npm run dev
 ```
 
 Server:
+
+```
+http://localhost:5000
+```
+
+Live Server:
 
 ```
 https://fix-it-now-virid.vercel.app
