@@ -86,20 +86,53 @@ const handleWebhook = async (payload: Buffer, signature: string) => {
   }
 };
 
-const paymentHistory = async (customerId: string) => {
-  const histoty = await prisma.payment.findMany({
+const paymentHistories = async (customerId: string) => {
+  const histories = await prisma.payment.findMany({
     where: {
       booking: {
         customerId,
       },
     },
+    orderBy: {
+      paidAt: "asc",
+    },
   });
 
-  return histoty
+  return histories;
+};
+
+const paymentHistoryById = async (customerId: string, paymentId: string) => {
+  const history = await prisma.payment.findUniqueOrThrow({
+    where: {
+      id: paymentId,
+      booking: {
+        customerId,
+      },
+    },
+    include: {
+      booking: {
+        include: {
+          service: {
+            include: {
+              technicianProfile: true,
+            },
+          },
+          customer: {
+            omit: {
+              password: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return history;
 };
 
 export const paymentService = {
   createCheckoutSession,
   handleWebhook,
-  paymentHistory,
+  paymentHistories,
+  paymentHistoryById,
 };
