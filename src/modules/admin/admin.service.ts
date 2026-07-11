@@ -1,6 +1,6 @@
 import { ActiveStatus } from "../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
-import { IUserUpdateAdminPayload } from "./admin.interface";
+import { ICategoryPayload, IUserUpdateAdminPayload } from "./admin.interface";
 
 const getAllUsersFromDB = async () => {
   const users = prisma.user.findMany({
@@ -56,9 +56,20 @@ const getAllBookingsFromDB = async () => {
   return bookings;
 };
 
+const createCategoryIntoDB = async (payload: ICategoryPayload) => {
+  const { name, discription } = payload;
+
+  const category = await prisma.category.create({
+    data: { name, discription },
+  });
+
+  return category;
+};
+
 export const adminService = {
   getAllUsersFromDB,
   getSingleUserFromDB,
   updateUserStatusIntoDB,
   getAllBookingsFromDB,
+  createCategoryIntoDB,
 };

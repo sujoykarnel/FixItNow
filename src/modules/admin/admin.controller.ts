@@ -61,9 +61,25 @@ const getAllBookings = catchAsync(
   },
 );
 
+const createCategory = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const payload = req.body;
+
+    const result = await adminService.createCategoryIntoDB(payload);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.CREATED,
+      message: "Category created successfully",
+      data: result,
+    });
+  },
+);
+
 export const adminController = {
   getAllUsers,
   getSingleUser,
   updateUserStatus,
   getAllBookings,
+  createCategory,
 };
